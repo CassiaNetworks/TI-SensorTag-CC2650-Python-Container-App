@@ -33,9 +33,13 @@ class CassiaApi:
             print("Please provide a valid api_type value:"
                   "'container', 'router', 'ac'")
         else:
-            self.api_type = api_type
+            self.api_type = self.ApiType(api_type)
 
         self.api_domain = api_domain
+        
+        if self.api_type == self.ApiType.AC:
+            self.api_domain += '/api'
+
         self.api_url_protocol = api_url_protocol
         self.__is_sse_scan = False
         self.__is_sse_notify = False
