@@ -51,17 +51,18 @@ class CassiaApi:
                 print(e)
                 sse_client.resp.close()
 
+    async def pair(self):
+        print('pair')
+        pass
+
     async def connect(self):
         print('connect')
         pass
 
-    def disconnect(self):
+    async def disconnect(self):
         print('disconnect')
         pass
 
-    def open_notify(self):
-        print('open_notify')
-        pass
-
-    def close_notify(self):
+    async def read(self):
+        print('read')
         pass
