@@ -15,6 +15,7 @@ TODO: Add more Cassia RESTful API methods.
 from enum import Enum
 from aiohttp_sse_client import client as sse_client
 import asyncio
+import json
 
 class CassiaApi:
     CONTAINER_ADDRESS = "10.10.10.254";
@@ -40,18 +41,27 @@ class CassiaApi:
         self.__is_sse_notify = False
         self.__ac_access_token = ''
 
-    async def scan(self):
-        async with sse_client.EventSource(
-            ''.join([self.api_url_protocol, '://', self.api_domain, '/gap/nodes?event=1'])
-            ) as event_source:
+    async def scan(self, filters, scanned_devices=[]):
+        sse_url = ''.join([
+                    self.api_url_protocol, '://',
+                    self.api_domain,
+                    '/gap/nodes?event=1'
+                ])
+
+        if len(filters):
+            sse_url = sse_url + '&' + '&'.join(filters)
+
+        async with sse_client.EventSource(sse_url) as event_source:
             try:
                 async for event in event_source:
-                    print(event)
+                    data = json.loads(event.data)
+                    scanned_devices.append(data['bdaddrs'][0]['bdaddr'])
+                    print(data['bdaddrs'][0]['bdaddr'])
             except ConnectionError as e:
                 print(e)
                 sse_client.resp.close()
 
-    async def pair(self):
+    async def pair(self, devices):
         print('pair')
         pass
 
