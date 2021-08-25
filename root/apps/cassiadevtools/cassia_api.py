@@ -25,6 +25,13 @@ class CassiaApi:
         AC = 'ac'
 
     def __init__(self, api_type, api_domain=CONTAINER_ADDRESS, api_url_protocol='http'):
+
+        self.api_domain = api_domain
+        self.api_url_protocol = api_url_protocol
+        self.__is_sse_scan = False
+        self.__is_sse_notify = False
+        self.__ac_access_token = ''
+
         try:
             self.ApiType(api_type)
 
@@ -35,15 +42,8 @@ class CassiaApi:
         else:
             self.api_type = self.ApiType(api_type)
 
-        self.api_domain = api_domain
-        
         if self.api_type == self.ApiType.AC:
             self.api_domain += '/api'
-
-        self.api_url_protocol = api_url_protocol
-        self.__is_sse_scan = False
-        self.__is_sse_notify = False
-        self.__ac_access_token = ''
 
     async def scan(self, filters, scanned_devices=[]):
         sse_url = ''.join([
@@ -61,6 +61,7 @@ class CassiaApi:
                     data = json.loads(event.data)
                     scanned_devices.append(data['bdaddrs'][0]['bdaddr'])
                     print(data['bdaddrs'][0]['bdaddr'])
+                    #print(data)
             except ConnectionError as e:
                 print(e)
                 sse_client.resp.close()
