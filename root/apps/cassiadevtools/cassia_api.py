@@ -66,12 +66,16 @@ class CassiaApi:
                 print(e)
                 sse_client.resp.close()
 
+    async def connect(self):
+        print('connect')
+        pass
+
     async def pair(self, devices):
         print('pair')
         pass
 
-    async def connect(self):
-        print('connect')
+    async def unpair(self, devices):
+        print('pair')
         pass
 
     async def disconnect(self):
