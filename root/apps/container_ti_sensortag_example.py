@@ -3,7 +3,7 @@ from cassiadevtools import filewrite
 from collections import defaultdict
 import asyncio
 
-API_DOMAIN_OR_IP_ADDRESS = '192.168.4.27'
+API_DOMAIN_OR_IP_ADDRESS = '10.10.10.254'
 
 async def scan_devices(api, filters, scanned_devices, scanned_devices_lock):
     await api.scan(filters, scanned_devices)

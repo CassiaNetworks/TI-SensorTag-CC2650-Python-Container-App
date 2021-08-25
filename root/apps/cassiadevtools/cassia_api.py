@@ -60,6 +60,7 @@ class CassiaApi:
                 async for event in event_source:
                     data = json.loads(event.data)
                     scanned_devices.append(data['bdaddrs'][0]['bdaddr'])
+                    # Print out the device MAC address.
                     print(data['bdaddrs'][0]['bdaddr'])
                     #print(data)
             except ConnectionError as e:
