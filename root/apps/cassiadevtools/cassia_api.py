@@ -46,10 +46,10 @@ class CassiaApi:
             self.api_domain += '/api'
 
     async def scan(self, filters, scanned_devices=[]):
+        is_successful = True
         sse_url = ''.join([
-                    self.api_url_protocol, '://',
-                    self.api_domain,
-                    '/gap/nodes?event=1'
+                    self.api_url_protocol,'://',
+                    self.api_domain,'/gap/nodes?event=1'
                 ])
 
         if len(filters):
@@ -60,24 +60,36 @@ class CassiaApi:
                 async for event in event_source:
                     data = json.loads(event.data)
                     scanned_devices.append(data['bdaddrs'][0]['bdaddr'])
+                    # Print out the device MAC address.
                     print(data['bdaddrs'][0]['bdaddr'])
                     #print(data)
             except ConnectionError as e:
                 print(e)
                 sse_client.resp.close()
-
-    async def pair(self, devices):
-        print('pair')
-        pass
+                is_successful = False
+        return is_successful
 
     async def connect(self):
+        is_successful = True
         print('connect')
-        pass
+        return is_successful
+
+    async def pair(self, devices):
+        is_successful = True
+        print('pair')
+        return is_successful
+
+    async def unpair(self, devices):
+        is_successful = True
+        print('unpair')
+        return is_successful
 
     async def disconnect(self):
+        is_successful = True
         print('disconnect')
-        pass
+        return is_successful
 
     async def read(self):
+        is_successful = True
         print('read')
-        pass
+        return is_successful

@@ -1,5 +1,7 @@
+#!/bin/bash
+
 set -x
-version=0.1.0
+version=1.0
 name=SamplePython3App
 build_path=/tmp/build
 rm -rf ${build_path}
